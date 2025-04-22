@@ -1,0 +1,8 @@
+Flask
+pandas
+scikit-learn
+joblib
+flask-cors
+Flask-JWT-Extended
+Flask-SQLAlchemy
+Flask-CORS

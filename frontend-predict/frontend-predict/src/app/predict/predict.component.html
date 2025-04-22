@@ -1,0 +1,21 @@
+<h2>Prédiction Température et Humidité</h2>
+
+<form (ngSubmit)="predict()" #predictForm="ngForm">
+  <label>Nom du produit :</label>
+  <input type="text" name="productname" [(ngModel)]="formData.productname" required />
+
+  <br />
+
+  <label>Catégorie :</label>
+  <input type="text" name="category" [(ngModel)]="formData.category" required />
+
+  <br /><br />
+
+  <button type="submit">Prédire</button>
+</form>
+
+<div *ngIf="prediction">
+  <h3>Résultat :</h3>
+  <p>Température : {{ prediction.temperature }} °C</p>
+  <p>Humidité : {{ prediction.humidity }} %</p>
+</div>

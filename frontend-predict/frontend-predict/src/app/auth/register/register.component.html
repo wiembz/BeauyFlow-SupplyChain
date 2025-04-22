@@ -1,0 +1,140 @@
+<!-- Modern, interactive register template for cosmetic supply chain -->
+<div class="auth-container">
+  <div class="auth-header">
+    <div class="logo-container">
+      <div class="logo-circle">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 16 16">
+          <path d="M3.5 11a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-9Z"/>
+          <path d="M2.375 1A2.366 2.366 0 0 0 0 3.357v9.286A2.366 2.366 0 0 0 2.375 15h11.25A2.366 2.366 0 0 0 16 12.643V3.357A2.366 2.366 0 0 0 13.625 1H2.375ZM1 3.357A1.366 1.366 0 0 1 2.375 2h11.25A1.366 1.366 0 0 1 15 3.357V4H1v-.643ZM1 5h14v7.643A1.366 1.366 0 0 1 13.625 14H2.375A1.366 1.366 0 0 1 1 12.643V5Z"/>
+        </svg>
+      </div>
+    </div>
+    <h1 class="auth-title">Create Account</h1>
+    <p class="auth-subtitle">Join our Cosmetic Supply Chain platform</p>
+  </div>
+
+  <form class="auth-form" (ngSubmit)="onRegister()">
+    <div class="row">
+      <div class="col">
+        <div class="form-group">
+          <label for="firstName">First Name</label>
+          <input
+            type="text"
+            id="firstName"
+            class="form-control"
+            placeholder="First name"
+            [(ngModel)]="registerForm.firstName"
+            name="firstName"
+            required>
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-group">
+          <label for="lastName">Last Name</label>
+          <input
+            type="text"
+            id="lastName"
+            class="form-control"
+            placeholder="Last name"
+            [(ngModel)]="registerForm.lastName"
+            name="lastName"
+            required>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input
+        type="email"
+        id="email"
+        class="form-control"
+        placeholder="Your email address"
+        [(ngModel)]="registerForm.email"
+        name="email"
+        required
+        autocomplete="email">
+    </div>
+
+    <div class="form-group">
+      <label for="company">Company Name</label>
+      <input
+        type="text"
+        id="company"
+        class="form-control"
+        placeholder="Your company"
+        [(ngModel)]="registerForm.company"
+        name="company">
+    </div>
+
+    <div class="form-group">
+      <label for="role">Role in Supply Chain</label>
+      <select
+        id="role"
+        class="form-control"
+        [(ngModel)]="registerForm.role"
+        name="role"
+        required>
+        <option value="" disabled selected>Select your role</option>
+        <option value="manufacturer">Manufacturer</option>
+        <option value="supplier">Supplier</option>
+        <option value="distributor">Distributor</option>
+        <option value="retailer">Retailer</option>
+        <option value="consumer">Consumer</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="password">Password</label>
+      <div class="password-input">
+        <input
+          [type]="showPassword ? 'text' : 'password'"
+          id="password"
+          class="form-control"
+          placeholder="Create a password"
+          [(ngModel)]="registerForm.password"
+          (ngModelChange)="onPasswordChange()"
+          name="password"
+          required
+          autocomplete="new-password">
+        <button
+          type="button"
+          class="toggle-password"
+          (click)="togglePasswordVisibility()">
+          <svg *ngIf="!showPassword" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M13.359 11.238C15.06 9.72 16 8 16 8s-3-5.5-8-5.5a7 7 0 0 0-2.79.588l.77.771A6 6 0 0 1 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8c-.058.087-.122.183-.195.288a13 13 0 0 1-1.465 1.734c-.319.326-.639.616-.959.884z"/>
+            <path d="M11.297 9.176a3.5 3.5 0 0 0-4.474-4.474l.823.823a2.5 2.5 0 0 1 2.829 2.829zm-2.943 1.299.822.822a3.5 3.5 0 0 1-4.474-4.474l.823.823a2.5 2.5 0 0 0 2.829 2.829"/>
+            <path d="M3.35 5.47a7 7 0 0 0-.859.417l.778.778a6 6 0 0 1 .43-.241zm8.376-1.014a6 6 0 0 0-.419.859l.778.778c.192-.263.37-.535.54-.814.169-.278.335-.554.493-.825zM6.93 4.662c-.092.06-.184.12-.278.18l.779.778c.184-.12.377-.256.573-.396zm-3.6 7.223.778.778a7 7 0 0 1-.43-.241zm1.435-5.068.778.778A2.68 2.68 0 0 0 4.992 8c0 .708.272 1.354.722 1.839l.778.778c-.75-.75-1.216-1.786-1.216-2.931 0-.744.256-1.451.715-2.003-.423.609-.67 1.345-.67 2.142 0 2.08 1.684 3.764 3.764 3.764 2.08 0 3.764-1.684 3.764-3.764 0-2.08-1.684-3.764-3.764-3.764-.69 0-1.334.19-1.889.518l.778.778a2.68 2.68 0 0 1 1.11-.238c1.488 0 2.694 1.206 2.694 2.694s-1.206 2.694-2.694 2.694-2.694-1.206-2.694-2.694c0-.366.077-.716.22-1.031zm10.302 2.406.778.778a7 7 0 0 0-.312-.578l-.466-.2z"/>
+          </svg>
+          <svg *ngIf="showPassword" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.097.145-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z"/>
+            <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0"/>
+          </svg>
+        </button>
+      </div>
+      <div class="password-strength">
+        <div class="strength-meter">
+          <div class="strength-segment" [ngClass]="{'active': passwordStrength >= 1}"></div>
+          <div class="strength-segment" [ngClass]="{'active': passwordStrength >= 2}"></div>
+          <div class="strength-segment" [ngClass]="{'active': passwordStrength >= 3}"></div>
+          <div class="strength-segment" [ngClass]="{'active': passwordStrength >= 4}"></div>
+        </div>
+        <span class="strength-text">{{passwordStrengthText}}</span>
+      </div>
+    </div>
+
+    <div class="terms-checkbox">
+      <label class="checkbox-container">
+        <input type="checkbox" [(ngModel)]="registerForm.agreeTerms" name="agreeTerms" required>
+        <span class="checkmark"></span>
+        I agree to the <a href="#" class="terms-link">Terms of Service</a> and <a href="#" class="terms-link">Privacy Policy</a>
+      </label>
+    </div>
+
+    <button type="submit" class="btn-primary btn-register" [disabled]="!registerForm.agreeTerms">Create Account</button>
+  </form>
+
+  <div class="auth-footer">
+    <p>Already have an account? <a routerLink="/login">Sign in</a></p>
+  </div>
+</div>
