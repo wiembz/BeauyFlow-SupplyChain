@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router } from '@angular/router'
+import { HttpClient } from '@angular/common/http';
+import { HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -8,25 +10,39 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent {
   loginForm = {
-    email: '',
+    username: '',
     password: '',
     rememberMe: false
   };
 
   showPassword = false;
 
-  constructor(private router: Router) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   togglePasswordVisibility() {
     this.showPassword = !this.showPassword;
   }
 
   onLogin() {
-    // This is just a placeholder for the login functionality
-    // In a real app, you would implement actual authentication here
-    console.log('Login attempt with:', this.loginForm);
-
-    // Navigate to the predict page after login
-    this.router.navigate(['/predict']);
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+  
+    this.http.post<any>('http://127.0.0.1:5000/login', {
+      username: this.loginForm.username,
+      password: this.loginForm.password
+    }, { headers }).subscribe(
+      (response) => {
+        if (response.success) {
+          console.log('Connexion réussie');
+          localStorage.setItem('token', response.token);
+          this.router.navigate(['/predict']);
+        } else {
+          alert('Échec de la connexion');
+        }
+      },
+      (error) => {
+        console.error('Échec de la connexion :', error);
+        alert('Nom d’utilisateur ou mot de passe incorrect');
+      }
+    );
   }
 }
