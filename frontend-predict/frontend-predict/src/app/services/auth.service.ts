@@ -13,7 +13,7 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   login(credentials: { username: string; password: string }) {
-    return this.http.post<{ access_token: string }>(`${this.API_URL}/login`, credentials).pipe(
+    return this.http.post<{ message: string, access_token: string }>(`${this.API_URL}/login`, credentials).pipe(
       tap(response => {
         localStorage.setItem(this.tokenKey, response.access_token);
         this.isLoggedIn$.next(true);

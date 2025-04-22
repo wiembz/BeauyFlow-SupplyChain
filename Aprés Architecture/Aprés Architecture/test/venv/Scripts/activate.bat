@@ -8,7 +8,7 @@ if defined _OLD_CODEPAGE (
     "%SystemRoot%\System32\chcp.com" 65001 > nul
 )
 
-set VIRTUAL_ENV=C:\Users\hakimi mayssa\Desktop\test\venv
+set VIRTUAL_ENV=C:\Users\wiem\Downloads\wetransfer_apres-architecture-zip_2025-04-21_2158\BeautyFlow\Aprés Architecture\Aprés Architecture\test\venv
 
 if not defined PROMPT set PROMPT=$P$G
 
