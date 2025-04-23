@@ -6,7 +6,7 @@ def get_db_connection():
     conn = psycopg2.connect(
         dbname="Supply_Auth",
         user="postgres",
-        password="azerty",
+        password="0000",
         host="localhost",
         port="5432"
     )

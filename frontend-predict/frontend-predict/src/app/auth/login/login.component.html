@@ -1,80 +1,183 @@
-<!-- Login template adapté pour une plateforme de gestion des contraintes -->
-<div class="auth-container">
-  <div class="auth-header">
-    <div class="logo-container">
-      <div class="logo-circle">
-        <!-- Icône représentant un utilisateur ou une application éducative -->
-        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 16 16">
-          <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3z"/>
-          <path d="M8 7a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
-        </svg>
-      </div>
-    </div>
-    <h1 class="auth-title">Connexion</h1>
-    <p class="auth-subtitle">Connectez-vous à votre espace personnel</p>
-  </div>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Connexion - BeautyFlow EST</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
 
-  <form class="auth-form" (ngSubmit)="onLogin()">
-    <div class="form-group">
+    body {
+      background: url('assets/images/pg.png') no-repeat center center fixed;
+      background-size: cover;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      padding-left: 5%;
+    }
+
+    .login-box {
+      padding: 50px 40px;
+      width: 100%;
+      max-width: 420px;
+      text-align: center;
+      color: #fff;
+      background-color: rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+    }
+
+    .avatar {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      margin: 0 auto 25px auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 32px;
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    h2 {
+      font-size: 26px;
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+
+    p {
+      font-size: 15px;
+      margin-bottom: 25px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      align-items: center;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+      padding: 14px;
+      border: 1px solid #fff;
+      border-radius: 12px;
+      width: 100%;
+      max-width: 340px;
+      font-size: 15px;
+      background-color: rgba(255, 255, 255, 0.85);
+      color: #333;
+    }
+
+    label {
+      font-size: 14px;
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      max-width: 340px;
+      color: #fff;
+    }
+
+    .remember {
+      display: flex;
+      align-items: center;
+      font-size: 13px;
+      gap: 8px;
+      justify-content: flex-start;
+      width: 100%;
+      max-width: 340px;
+      color: #fff;
+    }
+
+    .btn-connect {
+      background: linear-gradient(to right, #fba2b5, #f7cedf);
+      border: none;
+      color: white;
+      padding: 14px;
+      border-radius: 30px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      width: 100%;
+      max-width: 340px;
+    }
+
+    .btn-connect:hover {
+      background: linear-gradient(to right, #f993ac, #f5b7cb);
+    }
+
+    .divider {
+      margin: 15px 0;
+      color: #fff;
+    }
+
+    .google-btn {
+      background: white;
+      border: 1px solid #ccc;
+      border-radius: 30px;
+      padding: 12px;
+      font-weight: bold;
+      cursor: pointer;
+      color: #333;
+      width: 100%;
+      max-width: 340px;
+    }
+
+    .signup {
+      font-size: 13px;
+      margin-top: 10px;
+      color: #fff;
+    }
+
+    .signup a,
+    label a {
+      color: #f883a6;
+      text-decoration: none;
+    }
+
+    .signup a:hover,
+    label a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-box">
+    <div class="avatar">
+      👤
+    </div>
+    <h2>Connexion</h2>
+    <p>Connectez-vous à votre espace personnel</p>
+    <form>
       <label for="username">Nom d'utilisateur</label>
-      <input
-        type="text"
-        id="username"
-        class="form-control"
-        placeholder="Entrez votre nom d'utilisateur"
-        [(ngModel)]="loginForm.username"
-        name="username"
-        required
-        autocomplete="username">
-    </div>
+      <input type="text" id="username" placeholder="Entrez votre nom d'utilisateur">
 
-    <div class="form-group">
-      <div class="password-label">
-        <label for="password">Mot de passe</label>
-        <a href="#" class="forgot-link">Mot de passe oublié ?</a>
-      </div>
-      <div class="password-input">
-        <input
-          [type]="showPassword ? 'text' : 'password'"
-          id="password"
-          class="form-control"
-          placeholder="Entrez votre mot de passe"
-          [(ngModel)]="loginForm.password"
-          name="password"
-          required
-          autocomplete="current-password">
-        <button
-          type="button"
-          class="toggle-password"
-          (click)="togglePasswordVisibility()">
-          <!-- icônes visibles/cachées inchangées -->
-        </button>
-      </div>
-    </div>
-
-    <div class="remember-me">
-      <label class="checkbox-container">
-        <input type="checkbox" [(ngModel)]="loginForm.rememberMe" name="rememberMe">
-        <span class="checkmark"></span>
-        Se souvenir de moi
+      <label for="password">
+        <span>Mot de passe</span>
+        <a href="#">Mot de passe oublié ?</a>
       </label>
-    </div>
+      <input type="password" id="password" placeholder="Entrez votre mot de passe">
 
-    <button type="button" class="btn-primary btn-login" (click)="onLogin()">Se connecter</button>
+      <div class="remember">
+        <input type="checkbox" id="remember">
+        <label for="remember">Se souvenir de moi</label>
+      </div>
 
-    <div class="separator">ou</div>
+      <button type="submit" class="btn-connect">SE CONNECTER</button>
 
-    <div class="social-login">
-      <button type="button" class="btn-social btn-google">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-          <path d="..."/>
-        </svg>
-        Continuer avec Google
-      </button>
-    </div>
-  </form>
+      <div class="divider">ou</div>
 
-  <div class="auth-footer">
-    <p>Pas encore de compte ? <a routerLink="/register">Créer un compte</a></p>
+      <button type="button" class="google-btn">Continuer avec Google</button>
+
+      <p class="signup">Pas encore de compte ? <a href="#">Créer un compte</a></p>
+    </form>
   </div>
-</div>
+</body>
+</html>

@@ -8,13 +8,22 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
-
+import { HomePageComponent } from './Home/home-page/home-page.component';
+import { CPODashComponent } from './CPO/cpodash/cpodash.component';
+import { COODashComponent } from './COO/coodash/coodash.component';
+import { SCPMDashComponent } from './SCPM/scpmdash/scpmdash.component';
+import { LMDashComponent } from './LM/lmdash/lmdash.component'; 
 @NgModule({
   declarations: [
     AppComponent,
     PredictComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    HomePageComponent,
+    CPODashComponent,
+    COODashComponent,
+    SCPMDashComponent,
+    LMDashComponent
 
 
   ],
