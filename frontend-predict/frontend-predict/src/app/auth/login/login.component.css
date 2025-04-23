@@ -80,9 +80,20 @@
 }
 
 .password-label {
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.password-input {
+  width: 100%;
+  position: relative;
+}
+
+input[type="text"],
+input[type="password"] {
+  text-align: left;
 }
 
 .forgot-link {
@@ -97,9 +108,7 @@
   text-decoration: underline;
 }
 
-.password-input {
-  position: relative;
-}
+
 
 .toggle-password {
   position: absolute;
@@ -143,7 +152,7 @@
   padding: 0.85rem;
   font-size: 1rem;
   font-weight: 600;
-  margin-top: 0.5rem;
+  margin-top: 10px;
   text-transform: uppercase;
   letter-spacing: 1px;
 }
@@ -154,7 +163,7 @@
   text-align: center;
   color: #999;
   font-size: 0.9rem;
-  margin: 1.5rem 0;
+  margin: 8px 0;
 }
 
 .separator::before,
@@ -173,7 +182,7 @@
 }
 
 .social-login {
-  margin-bottom: 1rem;
+  margin-top: 8px;
 }
 
 .btn-social {

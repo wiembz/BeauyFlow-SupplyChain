@@ -18,6 +18,7 @@ const routes: Routes = [
 { path: 'CPO', component: CPODashComponent },
   { path: 'COO', component: COODashComponent },
   { path: 'SCPM', component: SCPMDashComponent },
+  {path: 'PM', component: SCPMDashComponent}, // Assuming PMComponent is the dashboard for Procurement Manager
 
 
 ];

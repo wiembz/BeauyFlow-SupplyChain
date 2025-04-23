@@ -155,28 +155,64 @@
     </div>
     <h2>Connexion</h2>
     <p>Connectez-vous à votre espace personnel</p>
-    <form>
-      <label for="username">Nom d'utilisateur</label>
-      <input type="text" id="username" placeholder="Entrez votre nom d'utilisateur">
-
-      <label for="password">
-        <span>Mot de passe</span>
-        <a href="#">Mot de passe oublié ?</a>
-      </label>
-      <input type="password" id="password" placeholder="Entrez votre mot de passe">
-
-      <div class="remember">
-        <input type="checkbox" id="remember">
-        <label for="remember">Se souvenir de moi</label>
+    <form class="auth-form" (ngSubmit)="onLogin()">
+      <div class="form-group horizontal">
+        <label for="username">Nom d'utilisateur</label>
+        <input
+          type="text"
+          id="username"
+          class="form-control"
+          placeholder="Entrez votre nom d'utilisateur"
+          [(ngModel)]="loginForm.username"
+          name="username"
+          required
+          autocomplete="username">
       </div>
-
-      <button type="submit" class="btn-connect">SE CONNECTER</button>
-
-      <div class="divider">ou</div>
-
-      <button type="button" class="google-btn">Continuer avec Google</button>
-
-      <p class="signup">Pas encore de compte ? <a href="#">Créer un compte</a></p>
+  
+      <div class="form-group">
+        <div class="password-label">
+          <label for="password">Mot de passe</label>
+          <a href="#" class="forgot-link">Mot de passe oublié ?</a>
+        </div>
+        <div class="password-input">
+          <input
+            [type]="showPassword ? 'text' : 'password'"
+            id="password"
+            class="form-control"
+            placeholder="Entrez votre mot de passe"
+            [(ngModel)]="loginForm.password"
+            name="password"
+            required
+            autocomplete="current-password">
+          <button
+            type="button"
+            class="toggle-password"
+            (click)="togglePasswordVisibility()">
+            <!-- icônes visibles/cachées inchangées -->
+          </button>
+        </div>
+      </div>
+  
+      <div class="remember-me">
+        <label class="checkbox-container">
+          <input type="checkbox" [(ngModel)]="loginForm.rememberMe" name="rememberMe">
+          <span class="checkmark"></span>
+          Se souvenir de moi
+        </label>
+      </div>
+  
+      <button type="button" class="btn-primary btn-login" (click)="onLogin()">Se connecter</button>
+  
+      <div class="separator">ou</div>
+  
+      <div class="social-login">
+        <button type="button" class="btn-social btn-google">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+            <path d="..."/>
+          </svg>
+          Continuer avec Google
+        </button>
+      </div>
     </form>
   </div>
 </body>

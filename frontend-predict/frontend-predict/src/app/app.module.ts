@@ -12,7 +12,8 @@ import { HomePageComponent } from './Home/home-page/home-page.component';
 import { CPODashComponent } from './CPO/cpodash/cpodash.component';
 import { COODashComponent } from './COO/coodash/coodash.component';
 import { SCPMDashComponent } from './SCPM/scpmdash/scpmdash.component';
-import { LMDashComponent } from './LM/lmdash/lmdash.component'; 
+import { LMDashComponent } from './LM/lmdash/lmdash.component';
+import { PMComponent } from './ProcurementManager/pm/pm.component'; 
 @NgModule({
   declarations: [
     AppComponent,
@@ -23,7 +24,8 @@ import { LMDashComponent } from './LM/lmdash/lmdash.component';
     CPODashComponent,
     COODashComponent,
     SCPMDashComponent,
-    LMDashComponent
+    LMDashComponent,
+    PMComponent
 
 
   ],
