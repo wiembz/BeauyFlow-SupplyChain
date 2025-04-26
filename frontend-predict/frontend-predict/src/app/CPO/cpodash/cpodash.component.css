@@ -2,37 +2,42 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  background: #f4f4f4;
+  background-color: #f5f5f5;
   padding: 10px;
 }
 
-.destinataire-select, .input-message {
-  padding: 5px;
-  font-size: 14px;
+.destinataire-select,
+.input-message {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 }
 
 button {
-  padding: 5px 10px;
-  background: #007bff;
-  border: none;
+  padding: 8px 16px;
+  background-color: #4CAF50;
   color: white;
+  border: none;
+  border-radius: 5px;
   cursor: pointer;
-  border-radius: 4px;
+}
+
+button:hover {
+  background-color: #45a049;
 }
 
 .report-container {
-  width: 100%;
-  height: 500px;
   margin-top: 10px;
+  width: 100%;
 }
 
 .messages-section {
-  margin-top: 20px;
+  margin: 20px;
 }
 
 .message-card {
-  background: #e3f2fd;
+  background: #f0f0f0;
   padding: 10px;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
   border-radius: 5px;
 }
