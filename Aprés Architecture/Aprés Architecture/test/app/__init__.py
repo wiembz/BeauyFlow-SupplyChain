@@ -1,26 +1,30 @@
 from flask import Flask
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
-from app.routes.predict import predict_bp  
-from app.routes.auth import auth_bp
 from flask_jwt_extended import JWTManager
-from flask_cors import CORS
 
+# Import de tes Blueprints
+from app.routes.predict import predict_bp
+from app.routes.auth import auth_bp
+from app.routes.getOdooMsg import odoo_routes
+from app.routes.addOdooMsg import add_msg_routes
+from app.routes.chat import chat_routes as chat_odoo_routes
 
 db = SQLAlchemy()
 
 def create_app():
     app = Flask(__name__)
-    CORS(app, origins="http://localhost:4200")  # si ton frontend tourne sur 4200
-  # Cela permet de gérer les requêtes CORS pour toutes les routes
+    CORS(app, origins="http://localhost:4200")  # Frontend Angular en 4200
     app.config.from_object('config.Config')
+    
     jwt = JWTManager(app)
     db.init_app(app)
 
-    
+    # ✨ Enregistrer tous les Blueprints
     app.register_blueprint(predict_bp)
     app.register_blueprint(auth_bp)
+    app.register_blueprint(odoo_routes)
+    app.register_blueprint(add_msg_routes)
+    app.register_blueprint(chat_odoo_routes)
+
     return app
-
-
-
