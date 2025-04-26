@@ -1,13 +1,36 @@
-<div class="dashboard-container">
-  <iframe [src]="dashboardUrl" width="100%" height="600" frameborder="0" allowFullScreen="true"></iframe>
+<div class="navbar">
+  <select [(ngModel)]="selectedDestinataireId" class="destinataire-select">
+    <option [value]="null" disabled selected>Choisir destinataire</option>
+    <option *ngFor="let user of users" [value]="user.id">
+      {{ user.name }}
+    </option>
+  </select>
 
-  <section class="messaging">
-    <h3>📨 Messages</h3>
-    <div *ngFor="let msg of messages" class="message">
-      <p><strong>{{ msg.author_id[1] }}:</strong> {{ msg.body }}</p>
-      <small>{{ msg.date }}</small>
-    </div>
-    <textarea [(ngModel)]="newMessage" placeholder="Écrire un message..."></textarea>
-    <button (click)="sendMessage()">Envoyer</button>
-  </section>
+  <input type="text" [(ngModel)]="newMessage" placeholder="Votre message..." class="input-message">
+  <button (click)="sendMessage()">Envoyer</button>
 </div>
+
+<div class="report-container">
+  <iframe
+    width="100%"
+    height="100%"
+    [src]="dashboardUrl"
+    frameborder="0"
+    allowFullScreen="true">
+  </iframe>
+</div>
+
+<section class="messages-section">
+  <h2>📩 Messages</h2>
+  <div *ngIf="messages.length > 0; else noMessages">
+    <div *ngFor="let message of messages">
+      <p><strong>{{ message.author_id[1] }}</strong> : {{ message.body }}</p>
+      <small>{{ message.date }}</small>
+    </div>
+  </div>
+  
+  <ng-template #noMessages>
+    <p>Aucun message reçu.</p>
+  </ng-template>
+  
+</section>

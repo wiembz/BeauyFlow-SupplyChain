@@ -13,7 +13,7 @@ export class ChatService {
   getMessages(userId: number): Observable<any[]> {
     return this.http.get<any[]>(`${this.baseUrl}/messages/${userId}`);
   }
-
+  
   sendMessage(auteurId: number, destinataireId: number, message: string): Observable<any> {
     return this.http.post<any>(`${this.baseUrl}/chat/send`, {
       auteur_id: auteurId,
