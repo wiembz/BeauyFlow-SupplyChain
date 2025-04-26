@@ -1,43 +1,106 @@
-.navbar {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  background-color: #f5f5f5;
-  padding: 10px;
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
 }
 
-.destinataire-select,
-.input-message {
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-button {
-  padding: 8px 16px;
-  background-color: #4CAF50;
-  color: white;
+.dashboard-frame {
+  width: 100vw;
+  height: 100vh;
   border: none;
-  border-radius: 5px;
+}
+
+.floating-icons {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.icon-button {
+  background-color: white;
+  border: 2px solid #ccc;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  font-size: 20px;
   cursor: pointer;
+  transition: 0.3s;
 }
 
-button:hover {
-  background-color: #45a049;
+.icon-button:hover {
+  background-color: #f0f0f0;
 }
 
-.report-container {
-  margin-top: 10px;
+.main-content {
+  position: relative;
   width: 100%;
+  height: 100%;
 }
 
-.messages-section {
-  margin: 20px;
+.messages-panel, .new-message-panel {
+  position: fixed;
+  top: 80px;
+  right: 20px;
+  width: 300px;
+  max-height: 70vh;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  z-index: 11;
 }
 
 .message-card {
-  background: #f0f0f0;
-  padding: 10px;
-  margin-bottom: 8px;
-  border-radius: 5px;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 10px;
+  padding-bottom: 5px;
+}
+
+.select-input, .textarea-input {
+  width: 100%;
+  margin-top: 10px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.send-button {
+  margin-top: 10px;
+  background-color: #665352;
+  color: white;
+  padding: 8px;
+  border: none;
+  border-radius: 8px;
+  width: 100%;
+  cursor: pointer;
+}
+
+.send-button:hover {
+  background-color: #CCA5A4;
+}
+
+.toast-message {
+  position: fixed;
+  top: 80px;
+  right: 80px;
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 12px;
+  z-index: 1000;
+  animation: fadeinout 3s forwards;
+}
+
+@keyframes fadeinout {
+  0% { opacity: 0; transform: translateY(-20px); }
+  10% { opacity: 1; transform: translateY(0); }
+  90% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-20px); }
 }

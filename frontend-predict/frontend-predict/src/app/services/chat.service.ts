@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 export class ChatService {
   private baseUrl = 'http://127.0.0.1:5000/api';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getMessages(userId: number): Observable<any[]> {
     return this.http.get<any[]>(`${this.baseUrl}/messages/${userId}`);
@@ -20,5 +20,13 @@ export class ChatService {
       destinataire_id: destinataireId,
       message: message
     });
+  }
+
+  getUsers(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/users`);
+  }
+
+  getTasks(userId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/tasks/${userId}`);
   }
 }

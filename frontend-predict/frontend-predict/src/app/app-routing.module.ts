@@ -15,7 +15,7 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'predict', component: PredictComponent },
   { path: 'home', component: HomePageComponent },
-{ path: 'lm',component :LMDashComponent}  ,
+{ path: 'logistic',component :LMDashComponent}  ,
 { path: 'CPO', component: CPODashComponent },
   { path: 'COO', component: COODashComponent },
   { path: 'SCPM', component: SCPMDashComponent },
