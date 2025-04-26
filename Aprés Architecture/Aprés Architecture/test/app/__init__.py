@@ -9,6 +9,7 @@ from app.routes.auth import auth_bp
 from app.routes.getOdooMsg import odoo_routes
 from app.routes.addOdooMsg import add_msg_routes
 from app.routes.chat import chat_routes as chat_odoo_routes
+from app.routes.task import task_routes
 
 db = SQLAlchemy()
 
@@ -26,5 +27,6 @@ def create_app():
     app.register_blueprint(odoo_routes)
     app.register_blueprint(add_msg_routes)
     app.register_blueprint(chat_odoo_routes)
+    app.register_blueprint(task_routes)  # <= AJOUTÉ
 
     return app

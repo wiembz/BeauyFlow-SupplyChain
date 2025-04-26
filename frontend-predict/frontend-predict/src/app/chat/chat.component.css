@@ -1,0 +1,25 @@
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+    margin: 20px auto;
+  }
+  
+  textarea {
+    width: 100%;
+    padding: 10px;
+    resize: none;
+  }
+  
+  button {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  button:hover {
+    background-color: #45a049;
+  }
+  

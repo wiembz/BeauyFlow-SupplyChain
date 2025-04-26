@@ -8,6 +8,7 @@ import { CPODashComponent } from './CPO/cpodash/cpodash.component';
 import { COODashComponent } from './COO/coodash/coodash.component';
 import { SCPMDashComponent } from './SCPM/scpmdash/scpmdash.component';
 import { LMDashComponent } from './LM/lmdash/lmdash.component';
+import { ChatComponent } from './chat/chat.component';
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
@@ -18,7 +19,8 @@ const routes: Routes = [
 { path: 'CPO', component: CPODashComponent },
   { path: 'COO', component: COODashComponent },
   { path: 'SCPM', component: SCPMDashComponent },
-  {path: 'PM', component: SCPMDashComponent}, // Assuming PMComponent is the dashboard for Procurement Manager
+  {path: 'PM', component: SCPMDashComponent},
+  { path: 'chat', component: ChatComponent }
 
 
 ];

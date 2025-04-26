@@ -13,7 +13,8 @@ import { CPODashComponent } from './CPO/cpodash/cpodash.component';
 import { COODashComponent } from './COO/coodash/coodash.component';
 import { SCPMDashComponent } from './SCPM/scpmdash/scpmdash.component';
 import { LMDashComponent } from './LM/lmdash/lmdash.component';
-import { PMComponent } from './ProcurementManager/pm/pm.component'; 
+import { PMComponent } from './ProcurementManager/pm/pm.component';
+import { ChatComponent } from './chat/chat.component'; 
 @NgModule({
   declarations: [
     AppComponent,
@@ -25,7 +26,8 @@ import { PMComponent } from './ProcurementManager/pm/pm.component';
     COODashComponent,
     SCPMDashComponent,
     LMDashComponent,
-    PMComponent
+    PMComponent,
+    ChatComponent
 
 
   ],
