@@ -5,7 +5,6 @@ odoo_routes = Blueprint('odoo_routes', __name__)
 
 @odoo_routes.route('/api/messages/<int:user_id>', methods=['GET'])
 def get_messages(user_id):
-    # 🔍 Lecture du partner_id lié à l'utilisateur
     user = models.execute_kw(
         db, uid, password,
         'res.users', 'read',
@@ -18,13 +17,10 @@ def get_messages(user_id):
 
     partner_id = user[0]['partner_id'][0]
 
-    # 💬 Récupération des messages liés au partner_id
     messages = models.execute_kw(
         db, uid, password,
         'mail.message', 'search_read',
         [[['partner_ids', 'in', [partner_id]]]],
         {'fields': ['author_id', 'body', 'date']}
     )
-
-    print(f"📩 {len(messages)} message(s) pour user_id={user_id}")
     return jsonify(messages)
