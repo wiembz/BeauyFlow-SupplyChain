@@ -1,23 +1,29 @@
 <div class="floating-icons">
-  <button (click)="toggleMessages()" class="icon-button">
-    📩
-  </button>
-  <button (click)="toggleNewMessage()" class="icon-button">
-    ➕
-  </button>
+  <button (click)="toggleMessages()" class="icon-button">📩</button>
+  <button (click)="toggleNewMessage()" class="icon-button">➕</button>
+  <button (click)="toggleCalendar()" class="icon-button">📅</button>
 </div>
 
 <div class="main-content">
+  <!-- Iframe du dashboard, toujours visible -->
   <iframe
     width="100%"
     height="100%"
     [src]="dashboardUrl"
     frameborder="0"
-    allowfullscreen
+    allowfullscreen="true"
     class="dashboard-frame">
   </iframe>
 
-  <!-- Messages -->
+  <!-- Popup Calendrier (flottant au centre, mais plus petit) -->
+  <div *ngIf="showCalendarModal" class="calendar-popup">
+    <div class="calendar-content">
+      <button (click)="closeCalendar()" class="close-button">❌</button>
+      <app-calendar (close)="closeCalendar()"></app-calendar>
+    </div>
+  </div>
+
+  <!-- Panneau Messages -->
   <div *ngIf="showMessages" class="messages-panel">
     <h2>📨 Messages</h2>
     <div *ngIf="messages.length > 0; else noMessages">
@@ -28,29 +34,25 @@
       </div>
     </div>
     <ng-template #noMessages>
-      <p> No messages ! </p>
+      <p>No messages</p>
     </ng-template>
   </div>
 
   <!-- Nouveau Message -->
   <div *ngIf="showNewMessage" class="new-message-panel">
-    <h2>📝 Send your message </h2>
-
+    <h2>📝 Send your message</h2>
     <select [(ngModel)]="selectedDestinataireId" class="select-input">
-      <option [value]="null" disabled selected> Open me </option>
+      <option [value]="null" disabled selected>Open me</option>
       <option *ngFor="let user of users" [value]="user.id">
         {{ user.name }}
       </option>
     </select>
-
     <textarea [(ngModel)]="newMessage" placeholder="Écrire votre message..." class="textarea-input"></textarea>
-
-    <button (click)="sendMessage()" class="send-button">Envoyer</button>
+    <button (click)="sendMessage()" class="send-button">Send</button>
   </div>
 
-  <!-- Message envoyé -->
-  <div *ngIf="messageSent" class="toast-message">
-    Message send successfully ✅
+  <!-- Succès -->
+  <div *ngIf="successMessage" class="success-message">
+    {{ successMessage }}
   </div>
-
 </div>

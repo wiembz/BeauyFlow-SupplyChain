@@ -1,0 +1,28 @@
+<div class="calendar-container">
+    <full-calendar #fullcalendar [options]="calendarOptions"></full-calendar>
+  
+    <!-- Formulaire Ajout -->
+    <div *ngIf="showAddForm" class="mini-form">
+      <h3>➕ Add Event</h3>
+      <input type="text" [(ngModel)]="newEventTitle" placeholder="Titre événement" class="input-field">
+      <div style="text-align: center; margin-top: 10px;">
+
+      <button (click)="saveNewEvent()">💾 </button> &nbsp;&nbsp;&nbsp;
+      <button (click)="cancelAdd()">❌ </button>
+      </div>
+    </div>
+  
+    <!-- Formulaire Modification -->
+    <div *ngIf="showEditForm" class="mini-form">
+        <h3> ✏️ </h3>
+        <input type="text" [(ngModel)]="editEventTitle" placeholder="Nouveau titre" class="input-field">
+      
+        <div style="text-align: center; margin-top: 10px;">
+          <button (click)="saveEditedEvent()">💾</button>&nbsp;&nbsp;&nbsp;
+          <button (click)="cancelEdit()">❌</button>&nbsp;&nbsp;&nbsp;
+          <button (click)="deleteEvent()">🗑️</button>&nbsp;&nbsp;&nbsp;
+        </div>
+      </div>
+      
+  </div>
+  

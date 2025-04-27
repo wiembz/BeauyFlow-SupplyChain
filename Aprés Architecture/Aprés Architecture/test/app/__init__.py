@@ -11,6 +11,7 @@ from app.routes.addOdooMsg import add_msg_routes
 from app.routes.chat import chat_routes as chat_odoo_routes
 from app.routes.task import task_routes
 from app.routes.users import users_routes  # <= importe le Blueprint
+from app.routes.calendar import calendar_routes
 
 db = SQLAlchemy()
 
@@ -18,7 +19,8 @@ def create_app():
     app = Flask(__name__)
     CORS(app, origins="http://localhost:4200")  # Frontend Angular en 4200
     app.config.from_object('config.Config')
-    
+    CORS(app)  # 🚀 Activer CORS pour toutes les routes
+
     jwt = JWTManager(app)
     db.init_app(app)
 
@@ -30,6 +32,8 @@ def create_app():
     app.register_blueprint(chat_odoo_routes)
     app.register_blueprint(task_routes)  # <= AJOUTÉ
     app.register_blueprint(users_routes)  # <= AJOUTE CECI
+    app.register_blueprint(calendar_routes)
+
 
 
     return app

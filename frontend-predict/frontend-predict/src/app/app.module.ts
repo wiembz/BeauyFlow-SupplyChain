@@ -15,6 +15,9 @@ import { SCPMDashComponent } from './SCPM/scpmdash/scpmdash.component';
 import { LMDashComponent } from './LM/lmdash/lmdash.component';
 import { PMComponent } from './ProcurementManager/pm/pm.component';
 import { ChatComponent } from './chat/chat.component'; 
+import { FullCalendarModule } from '@fullcalendar/angular'; // <== IMPORT FULLCALENDAR
+import { CalendarComponent } from './calendar/calendar.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -27,7 +30,8 @@ import { ChatComponent } from './chat/chat.component';
     SCPMDashComponent,
     LMDashComponent,
     PMComponent,
-    ChatComponent
+    ChatComponent,
+    CalendarComponent
 
 
   ],
@@ -39,7 +43,9 @@ import { ChatComponent } from './chat/chat.component';
     ReactiveFormsModule,
     FormsModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FullCalendarModule
+
   ],
   providers: [
     {
