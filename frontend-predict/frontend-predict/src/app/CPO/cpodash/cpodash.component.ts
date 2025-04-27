@@ -1,20 +1,22 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, OnDestroy, OnInit } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { Subscription, interval } from 'rxjs';
+
+import { FullCalendarComponent } from '@fullcalendar/angular';
+import { CalendarOptions, DateSelectArg } from '@fullcalendar/core';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import interactionPlugin from '@fullcalendar/interaction';
+
 import { ChatService } from '../../services/chat.service';
 import { UserService } from '../../services/user.service';
 import { CalendarService } from '../../services/calendar.service';
-import { FullCalendarComponent } from '@fullcalendar/angular';
-import { CalendarOptions, EventClickArg, DateSelectArg } from '@fullcalendar/core';
-import dayGridPlugin from '@fullcalendar/daygrid';
-import interactionPlugin from '@fullcalendar/interaction';
-import { Subscription, interval } from 'rxjs';
 
 @Component({
   selector: 'app-cpodash',
   templateUrl: './cpodash.component.html',
   styleUrls: ['./cpodash.component.css']
 })
-export class CPODashComponent {
+export class CPODashComponent implements OnInit, OnDestroy {
   @ViewChild('fullcalendar') calendarComponent!: FullCalendarComponent;
 
   dashboardUrl: SafeResourceUrl;
@@ -23,13 +25,15 @@ export class CPODashComponent {
   newMessage: string = '';
   selectedDestinataireId: number | null = null;
   userId: number = 8;
+  messageSent = false;
 
   showMessages = false;
   showNewMessage = false;
   showCalendarModal = false;
   successMessage = '';
-  refreshSubscription!: Subscription;
+  events: { day: string, hour: string, title: string }[] = [];
 
+  refreshSubscription!: Subscription;
 
   calendarOptions: CalendarOptions = {
     plugins: [dayGridPlugin, interactionPlugin],
@@ -37,7 +41,6 @@ export class CPODashComponent {
     editable: true,
     selectable: true,
     select: this.handleDateSelect.bind(this),
-    eventClick: this.handleEventClick.bind(this),
     events: []
   };
 
@@ -50,46 +53,75 @@ export class CPODashComponent {
     this.dashboardUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
       'https://app.powerbi.com/reportEmbed?reportId=6c0b00c7-aebb-45d0-b510-2ce3c0de50d7&autoAuth=true&ctid=604f1a96-cbe8-43f8-abbf-f8eaf5d85730&navContentPaneEnabled=false&filterPaneEnabled=false'
     );
+  }
+
+  ngOnInit() {
     this.loadMessages();
     this.loadUsers();
     this.loadEvents();
     this.listenToCalendarIcons();
-      // ⏰ Auto-refresh toutes les 5 secondes
-      this.refreshSubscription = interval(5000).subscribe(() => {
-        if (this.showMessages) {  // seulement si la section "Messages" est ouverte
-          this.loadMessages();
-        }
-      });
-  
+
+    // ⏰ Auto-refresh des messages toutes les 5 secondes
+    this.refreshSubscription = interval(5000).subscribe(() => {
+      if (this.showMessages) {
+        this.loadMessages();
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    if (this.refreshSubscription) {
+      this.refreshSubscription.unsubscribe();
+    }
   }
 
   loadMessages() {
-    this.chatService.getMessages(this.userId).subscribe(data => {
-      this.messages = data;
+    this.chatService.getMessages(this.userId).subscribe({
+      next: (data) => this.messages = data,
+      error: (err) => console.error('Erreur chargement messages', err)
     });
   }
 
   loadUsers() {
-    this.userService.getUsers().subscribe(data => {
-      this.users = data;
+    this.userService.getUsers().subscribe({
+      next: (data) => this.users = data,
+      error: (err) => console.error('Erreur chargement users', err)
     });
   }
 
-  sendMessage() {
+  loadEvents() {
+    this.calendarService.getEvents().subscribe({
+      next: (events) => {
+        this.calendarOptions.events = events.map(e => ({
+          id: String(e.id),
+          title: e.name,
+          start: e.start,
+          end: e.stop,
+          extendedProps: {
+            createdBy: e.user_id
+          }
+        }));
+      },
+      error: (err) => console.error('Erreur chargement événements', err)
+    });
+  }
+
+  sendMessage(): void {
     if (this.newMessage.trim() && this.selectedDestinataireId) {
       this.chatService.sendMessage(this.userId, this.selectedDestinataireId, this.newMessage)
         .subscribe({
           next: () => {
             this.newMessage = '';
             this.selectedDestinataireId = null;
-            this.successMessage = '✅ Message envoyé avec succès!';
+            this.messageSent = true;
             this.showNewMessage = false;
             this.loadMessages();
-            setTimeout(() => this.successMessage = '', 3000);
+            setTimeout(() => {
+              this.messageSent = false;
+            }, 3000);
           },
-          error: () => {
-            this.successMessage = '❌ Erreur lors de l\'envoi.';
-            setTimeout(() => this.successMessage = '', 3000);
+          error: (err) => {
+            console.error('Erreur envoi:', err);
           }
         });
     }
@@ -117,55 +149,23 @@ export class CPODashComponent {
     this.showCalendarModal = false;
   }
 
-  loadEvents() {
-    this.calendarService.getEvents().subscribe(events => {
-      this.calendarOptions.events = events.map(e => ({
-        id: String(e.id),
-        title: e.name,
-        start: e.start,
-        end: e.stop,
-        extendedProps: {
-          createdBy: e.user_id
-        }
-      }));
-    });
-  }
-
   handleDateSelect(selectInfo: DateSelectArg) {
     const calendarApi = selectInfo.view.calendar;
 
-    const tempEvent = calendarApi.addEvent({
+    calendarApi.addEvent({
       title: '',
       start: selectInfo.startStr,
       end: selectInfo.endStr,
       allDay: selectInfo.allDay
     });
 
-   
-
     calendarApi.unselect();
-  }
-
-  handleEventClick(clickInfo: EventClickArg) {
-    const eventId = Number(clickInfo.event.id);
-    const createdBy = clickInfo.event.extendedProps['createdBy'];
-
-    if (createdBy !== this.userId) {
-      alert('🚫 Vous ne pouvez modifier/supprimer que vos propres événements.');
-      return;
-    }
-
-    if (confirm(`Supprimer l'événement "${clickInfo.event.title}" ?`)) {
-      this.calendarService.deleteEvent(eventId).subscribe(() => {
-        clickInfo.event.remove();
-      });
-    }
   }
 
   listenToCalendarIcons() {
     window.addEventListener('addEvent', (e: any) => {
       const id = e.detail;
-      const event = this.calendarComponent.getApi().getEventById(id);
+      const event = this.calendarComponent?.getApi().getEventById(id);
       const title = prompt('Titre de votre événement ?');
       if (title && event) {
         event.setProp('title', title);
@@ -174,7 +174,7 @@ export class CPODashComponent {
 
     window.addEventListener('editEvent', (e: any) => {
       const id = e.detail;
-      const event = this.calendarComponent.getApi().getEventById(id);
+      const event = this.calendarComponent?.getApi().getEventById(id);
       const newTitle = prompt('Modifier le titre :', event?.title || '');
       if (newTitle && event) {
         event.setProp('title', newTitle);
@@ -183,7 +183,7 @@ export class CPODashComponent {
 
     window.addEventListener('deleteEvent', (e: any) => {
       const id = e.detail;
-      const event = this.calendarComponent.getApi().getEventById(id);
+      const event = this.calendarComponent?.getApi().getEventById(id);
       if (event && confirm('Supprimer cet événement ?')) {
         event.remove();
       }

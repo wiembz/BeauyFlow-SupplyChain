@@ -3,37 +3,33 @@ from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 from flask_jwt_extended import JWTManager
 
-# Import de tes Blueprints
 from app.routes.predict import predict_bp
 from app.routes.auth import auth_bp
 from app.routes.getOdooMsg import odoo_routes
 from app.routes.addOdooMsg import add_msg_routes
 from app.routes.chat import chat_routes as chat_odoo_routes
 from app.routes.task import task_routes
-from app.routes.users import users_routes  # <= importe le Blueprint
-from app.routes.calendar import calendar_routes
+from app.routes.users import users_routes
+from app.routes.calendar import calendar_api
 
 db = SQLAlchemy()
 
 def create_app():
     app = Flask(__name__)
-    CORS(app, origins="http://localhost:4200")  # Frontend Angular en 4200
     app.config.from_object('config.Config')
-    CORS(app)  # 🚀 Activer CORS pour toutes les routes
+    CORS(app, origins="http://localhost:4200")  # Seulement ton frontend Angular
 
     jwt = JWTManager(app)
     db.init_app(app)
 
-    # ✨ Enregistrer tous les Blueprints
+    # Enregistrer tous les blueprints
     app.register_blueprint(predict_bp)
     app.register_blueprint(auth_bp)
     app.register_blueprint(odoo_routes)
     app.register_blueprint(add_msg_routes)
     app.register_blueprint(chat_odoo_routes)
-    app.register_blueprint(task_routes)  # <= AJOUTÉ
-    app.register_blueprint(users_routes)  # <= AJOUTE CECI
-    app.register_blueprint(calendar_routes)
-
-
+    app.register_blueprint(task_routes)
+    app.register_blueprint(users_routes)
+    app.register_blueprint(calendar_api)
 
     return app

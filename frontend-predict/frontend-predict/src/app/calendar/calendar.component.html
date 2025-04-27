@@ -1,28 +1,22 @@
-<div class="calendar-container">
-    <full-calendar #fullcalendar [options]="calendarOptions"></full-calendar>
-  
-    <!-- Formulaire Ajout -->
-    <div *ngIf="showAddForm" class="mini-form">
-      <h3>➕ Add Event</h3>
-      <input type="text" [(ngModel)]="newEventTitle" placeholder="Titre événement" class="input-field">
-      <div style="text-align: center; margin-top: 10px;">
+<div class="calendar-wrapper">
+  <full-calendar #fullcalendar [options]="calendarOptions"></full-calendar>
 
-      <button (click)="saveNewEvent()">💾 </button> &nbsp;&nbsp;&nbsp;
-      <button (click)="cancelAdd()">❌ </button>
-      </div>
+  <!-- Popup Ajouter/Modifier -->
+  <div *ngIf="showPopup" class="popup-form">
+    <h4 *ngIf="!selectedEvent">➕ Add Event</h4>
+    <h4 *ngIf="selectedEvent">✏️ Update Event</h4>
+
+    <input
+      type="text"
+      [(ngModel)]="newEventTitle"
+      placeholder="Titre de l'événement"
+      class="input-field"
+    />
+
+    <div class="popup-actions">
+      <button (click)="saveEvent()">✅ Save</button>
+      <button *ngIf="selectedEvent" (click)="deleteEvent()">🗑️ Delete</button>
+      <button (click)="closePopup()">❌ Cancel</button>
     </div>
-  
-    <!-- Formulaire Modification -->
-    <div *ngIf="showEditForm" class="mini-form">
-        <h3> ✏️ </h3>
-        <input type="text" [(ngModel)]="editEventTitle" placeholder="Nouveau titre" class="input-field">
-      
-        <div style="text-align: center; margin-top: 10px;">
-          <button (click)="saveEditedEvent()">💾</button>&nbsp;&nbsp;&nbsp;
-          <button (click)="cancelEdit()">❌</button>&nbsp;&nbsp;&nbsp;
-          <button (click)="deleteEvent()">🗑️</button>&nbsp;&nbsp;&nbsp;
-        </div>
-      </div>
-      
   </div>
-  
+</div>

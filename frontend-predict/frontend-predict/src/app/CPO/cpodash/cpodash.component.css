@@ -118,4 +118,27 @@ body, html {
   z-index: 1000;
   box-shadow: 0 4px 9px rgba(0, 0, 0, 0.25);
 }
+/* cpodash.component.css */
+::ng-deep .fc-event {
+  background-color: #CCA5A4 !important;
+  border-color: #CCA5A4 !important;
+  color: white !important;
+}
 
+::ng-deep .fc-event-title {
+  color: white !important;
+}
+
+::ng-deep .fc-daygrid-event {
+  background-color: #CCA5A4 !important;
+  border-color: #CCA5A4 !important;
+  color: white !important;
+}
+
+::ng-deep .fc-list-item-title {
+  color: #CCA5A4 !important;
+}
+
+::ng-deep .fc-list-item.fc-event .fc-list-item-time {
+  color: #CCA5A4 !important;
+}

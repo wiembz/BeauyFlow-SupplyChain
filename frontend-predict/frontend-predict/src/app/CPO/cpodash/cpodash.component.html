@@ -15,11 +15,13 @@
     class="dashboard-frame">
   </iframe>
 
-  <!-- Popup Calendrier (flottant au centre, mais plus petit) -->
+    <!-- Popup Calendrier -->
   <div *ngIf="showCalendarModal" class="calendar-popup">
     <div class="calendar-content">
       <button (click)="closeCalendar()" class="close-button">❌</button>
-      <app-calendar (close)="closeCalendar()"></app-calendar>
+
+      <app-calendar ></app-calendar>
+      
     </div>
   </div>
 
@@ -47,12 +49,15 @@
         {{ user.name }}
       </option>
     </select>
-    <textarea [(ngModel)]="newMessage" placeholder="Écrire votre message..." class="textarea-input"></textarea>
+    <textarea [(ngModel)]="newMessage" placeholder="Write your message..." class="textarea-input"></textarea>
     <button (click)="sendMessage()" class="send-button">Send</button>
   </div>
 
-  <!-- Succès -->
-  <div *ngIf="successMessage" class="success-message">
-    {{ successMessage }}
+
+
+   <!-- Succès -->
+  <div *ngIf="messageSent" class="toast-message">
+    Message send successfully ✅
   </div>
+  
 </div>

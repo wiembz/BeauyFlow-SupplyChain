@@ -1,8 +1,10 @@
+// calendar.component.ts
 import { Component, ViewChild } from '@angular/core';
-import { FullCalendarComponent } from '@fullcalendar/angular';
-import { CalendarOptions, EventClickArg, DateSelectArg, EventApi } from '@fullcalendar/core';
+import { CalendarOptions, DateSelectArg, EventClickArg, EventApi } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
+import { FullCalendarComponent } from '@fullcalendar/angular';
+import { CalendarService } from '../services/calendar.service';
 
 @Component({
   selector: 'app-calendar',
@@ -12,83 +14,108 @@ import interactionPlugin from '@fullcalendar/interaction';
 export class CalendarComponent {
   @ViewChild('fullcalendar') calendarComponent!: FullCalendarComponent;
 
-  calendarOptions: CalendarOptions;
-  selectedEvent: EventApi | null = null;
-  selectedDate: string = '';
-  
-  showActionIcons = false;
-  showAddForm = false;
-  showEditForm = false;
-  
+  calendarOptions: CalendarOptions = {
+    plugins: [dayGridPlugin, interactionPlugin],
+    initialView: 'dayGridMonth',
+    selectable: true,
+    editable: true,
+    selectMirror: true,
+    select: this.handleDateSelect.bind(this),
+    eventClick: this.handleEventClick.bind(this),
+    events: []
+  };
+
   newEventTitle = '';
-  editEventTitle = '';
+  selectedEvent: EventApi | null = null;
+  selectedDate = '';
+  showPopup = false;
+  userId = 8; // ID utilisateur (CPO)
 
-  iconTop = 0;
-  iconLeft = 0;
+  constructor(private calendarService: CalendarService) {
+    this.loadEvents();
+  }
 
-  constructor() {
-    this.calendarOptions = {
-      plugins: [dayGridPlugin, interactionPlugin],
-      initialView: 'dayGridMonth',
-      editable: true,
-      selectable: true,
-      selectMirror: true,
-      select: this.handleDateSelect.bind(this),
-      eventClick: this.handleEventClick.bind(this),
-      events: []
-    };
+  loadEvents() {
+    this.calendarService.getEvents().subscribe(events => {
+      this.calendarOptions.events = events.map(event => ({
+        id: String(event.id),
+        title: event.name,
+        start: event.start,
+        end: event.stop,
+        allDay: true
+      }));
+    });
   }
 
   handleDateSelect(selectInfo: DateSelectArg) {
     this.selectedDate = selectInfo.startStr;
-    this.showAddForm = true;
-    this.showEditForm = false;
-    this.showActionIcons = false;
+    this.showPopup = true;
+    this.selectedEvent = null;
+    this.newEventTitle = '';
   }
 
   handleEventClick(clickInfo: EventClickArg) {
     this.selectedEvent = clickInfo.event;
-    this.showEditForm = true;
-    this.showAddForm = false;
-    this.editEventTitle = this.selectedEvent.title;
+    this.newEventTitle = this.selectedEvent.title;
+    this.showPopup = true;
   }
 
-  saveNewEvent() {
-    const calendarApi = this.calendarComponent.getApi();
-    if (this.newEventTitle.trim()) {
-      calendarApi.addEvent({
+  saveEvent() {
+    if (this.selectedEvent) {
+      // Si on modifie un event existant
+      this.calendarService.updateEvent(Number(this.selectedEvent.id), {
+        name: this.newEventTitle,
+        start: this.selectedEvent.startStr,
+        stop: this.selectedEvent.startStr,
+        user_id: this.userId
+      }).subscribe({
+        next: () => {
+          console.log('✅ Event updated');
+          this.loadEvents();  // <<< recharge après update
+          this.closePopup();
+        },
+        error: (err) => console.error('❌ Error updating event:', err)
+      });
+  
+    } else {
+      // Si c'est un nouvel event
+      const calendarApi = this.calendarComponent.getApi();
+      const event = calendarApi.addEvent({
         title: this.newEventTitle,
         start: this.selectedDate,
         allDay: true
       });
-      this.newEventTitle = '';
-      this.showAddForm = false;
+  
+      this.calendarService.createEvent({
+        name: this.newEventTitle,
+        start: this.selectedDate,
+        stop: this.selectedDate,
+        user_id: this.userId
+      }).subscribe({
+        next: () => {
+          console.log('✅ Event created');
+          this.loadEvents();  // <<< recharge après création
+          this.closePopup();
+        },
+        error: (err) => console.error('❌ Error creating event:', err)
+      });
     }
   }
-
-  saveEditedEvent() {
-    if (this.selectedEvent && this.editEventTitle.trim()) {
-      this.selectedEvent.setProp('title', this.editEventTitle);
-      this.showEditForm = false;
-      this.editEventTitle = '';
-    }
-  }
-
-  cancelAdd() {
-    this.showAddForm = false;
-    this.newEventTitle = '';
-  }
-
-  cancelEdit() {
-    this.showEditForm = false;
-    this.editEventTitle = '';
-  }
-
+  
   deleteEvent() {
     if (this.selectedEvent) {
-      this.selectedEvent.remove();
-      this.showEditForm = false;
-      this.selectedEvent = null;
+      this.calendarService.deleteEvent(Number(this.selectedEvent.id)).subscribe(() => {
+        this.selectedEvent?.remove();
+        console.log('🗑️ Event deleted from Odoo');
+        this.closePopup();
+      });
     }
+  }
+
+  closePopup() {
+    this.showPopup = false;
+    this.newEventTitle = '';
+    this.selectedEvent = null;
+    this.selectedDate = '';
   }
 }
